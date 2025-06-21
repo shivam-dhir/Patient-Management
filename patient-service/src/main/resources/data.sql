@@ -1,4 +1,9 @@
+-- noinspection SqlNoDataSourceInspectionForFile
+
 -- Ensure the 'patient' table exists
+
+-- SpringBoot automatically identifies data.sql or schema.sql files in resources folder and
+-- runs them before starting the application
 CREATE TABLE IF NOT EXISTS patient
 (
     id              UUID PRIMARY KEY,
