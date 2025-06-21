@@ -79,4 +79,15 @@ public class Patient {
         this.registerDate = registerDate;
     }
 
+    @Override
+    public String toString() {
+        return "Patient{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", registerDate=" + registerDate +
+                '}';
+    }
 }
