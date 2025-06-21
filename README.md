@@ -100,5 +100,3 @@ A scalable and modular **Patient Management System** built with a microservice a
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
-
-Let me know if you’d like it formatted for a private enterprise repository, or if you'd like to include example API usage or diagrams.
