@@ -1,0 +1,13 @@
+### Create a new patient
+POST localhost:4000/patients/new
+Content-Type: application/json
+
+{
+  "name": "Priya Patil",
+  "email": "priya.patil@example.com",
+  "address": "beverly plaza",
+  "dateOfBirth": "2001-05-14",
+  "registeredDate": "2025-06-22"
+}
+
+###
