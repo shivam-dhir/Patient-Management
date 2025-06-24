@@ -3,11 +3,11 @@ POST localhost:4000/patients/new
 Content-Type: application/json
 
 {
-  "name": "Priya Patil",
-  "email": "priya.patil@example.com",
-  "address": "beverly plaza",
-  "dateOfBirth": "2001-05-14",
-  "registeredDate": "2025-06-22"
+  "name": "Yami Gautum",
+  "email": "yami.gautum@example.com",
+  "address": "Juhu Beach",
+  "dateOfBirth": "",
+  "registeredDate": "2025-04-18"
 }
 
 ###
