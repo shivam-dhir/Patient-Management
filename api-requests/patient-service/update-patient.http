@@ -1,0 +1,11 @@
+### Update existing patient
+PUT localhost:4000/patients/update/4c994531-e43c-4b97-a97f-5de4295c0228
+Content-Type: application/json
+
+{
+  "name": "Gaurav Salvi",
+  "email": "gaurav.salvi01@example.com",
+  "address": "Borivali West",
+  "dateOfBirth": "2001-04-01",
+  "registeredDate": "2025-06-24"
+}
