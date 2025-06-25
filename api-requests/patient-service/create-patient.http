@@ -6,7 +6,7 @@ Content-Type: application/json
   "name": "Yami Gautum",
   "email": "yami.gautum@example.com",
   "address": "Juhu Beach",
-  "dateOfBirth": "",
+  "dateOfBirth": "1990-03-12",
   "registeredDate": "2025-04-18"
 }
 
