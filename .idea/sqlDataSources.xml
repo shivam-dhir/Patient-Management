@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DdlMappings">
+    <mapping uuid="5066b1ad-7e39-4e4c-8d0c-36ab17e24857" name="patient-service-db Mapping">
+      <data-sources db="1d842443-e1e8-4c32-ad3b-92ec9739599b" ddl="fcd3142e-3fbc-4522-93dc-124d60a99eb6" />
+    </mapping>
+  </component>
+  <component name="SqlDataSourceStorage">
+    <option name="dataSources">
+      <list>
+        <State>
+          <option name="id" value="fcd3142e-3fbc-4522-93dc-124d60a99eb6" />
+          <option name="name" value="patient-service-db (DDL)" />
+          <option name="dbmsName" value="POSTGRES" />
+          <option name="urls">
+            <array />
+          </option>
+          <option name="outLayout" value="File per object by schema.groovy" />
+        </State>
+      </list>
+    </option>
+  </component>
+</project>
