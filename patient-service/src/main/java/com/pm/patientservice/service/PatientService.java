@@ -71,7 +71,7 @@ public class PatientService {
     public void deletePatient(UUID id){
         Patient patient = patientRepository.getPatientById(id);
         patientRepository.deleteById(id);
-//        return PatientMapper.toPatientResponseDTO(patient);
+//      return PatientMapper.toPatientResponseDTO(patient);
     }
 
 }
