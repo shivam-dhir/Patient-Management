@@ -5,10 +5,11 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/patient-service/pom.xml" />
+        <option value="$PROJECT_DIR$/billing-service/pom.xml" />
       </list>
     </option>
   </component>
-  <component name="ProjectRootManager">
+  <component name="ProjectRootManager" version="2" project-jdk-name="21" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
