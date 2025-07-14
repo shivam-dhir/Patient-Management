@@ -5,22 +5,4 @@
       <data-sources db="1d842443-e1e8-4c32-ad3b-92ec9739599b" ddl="fcd3142e-3fbc-4522-93dc-124d60a99eb6" />
     </mapping>
   </component>
-<<<<<<< HEAD
-=======
-  <component name="SqlDataSourceStorage">
-    <option name="dataSources">
-      <list>
-        <State>
-          <option name="id" value="fcd3142e-3fbc-4522-93dc-124d60a99eb6" />
-          <option name="name" value="patient-service-db (DDL)" />
-          <option name="dbmsName" value="POSTGRES" />
-          <option name="urls">
-            <array />
-          </option>
-          <option name="outLayout" value="File per object by schema.groovy" />
-        </State>
-      </list>
-    </option>
-  </component>
->>>>>>> b3056471823d44d00dfa144d442811783d6aebb4
 </project>
