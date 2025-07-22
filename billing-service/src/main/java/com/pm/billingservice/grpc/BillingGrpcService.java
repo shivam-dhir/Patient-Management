@@ -11,8 +11,7 @@ import org.slf4j.LoggerFactory;
 @GrpcService
 public class BillingGrpcService extends BillingServiceImplBase {
 
-    private static final Logger log = LoggerFactory.getLogger(
-            BillingGrpcService.class);
+    private static final Logger log = LoggerFactory.getLogger(BillingGrpcService.class);
 
     @Override
     public void createBillingAccount(BillingRequest billingRequest,
