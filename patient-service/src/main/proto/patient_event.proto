@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package patient.events;
+
+// generate multiple files for each class instead of a single one
+option java_multiple_files = true;
+
+// case sensitivity is important as this converts to a java class and they are expected
+// to start with a capital letter i.e.  PascalCase by convention
+message PatientEvent {
+  string patientId = 1;
+  string name = 2;
+  string email = 3;
+  string event_type = 4;
+}
+
+

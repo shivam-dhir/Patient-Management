@@ -28,7 +28,7 @@ public class PatientController {
     @GetMapping("/all")
     @Operation(summary = "Get patients")
     public ResponseEntity<List<PatientResponseDTO>> getPatients() {
-        List<PatientResponseDTO> patients = patientService.getAllPatients();
+        List<PatientResponseDTO> patients = patientService.getPatients();
         return ResponseEntity.ok().body(patients);
     }
 
