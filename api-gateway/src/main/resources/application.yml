@@ -1,0 +1,22 @@
+server:
+  port: 4004
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: patient-service-route
+              uri: http://patient-service:4000
+              predicates:
+              - Path=/api/patients/** # should match with request path. Eg: http://localhost:4004/api/patients. This matches with /api/patients/**
+              filters:
+              - StripPrefix=1 # removal of a specified prefix from the incoming request path before forwarding the request to the downstream service. #E.g.: Client sends a request to /api/v1/users. Assuming strip-prefix = 2, backend service will receive request as /users, as characters until 2 backslashes are removed
+
+            - id: api-docs-patient-route
+              uri: http://patient-service:4000
+              predicates:
+              - Path=/api-docs/patients
+              filters:
+              - RewritePath=/api-docs/patients,/v3/api-docs # if request matches the predicate /api-docs/patients, it will rewrite it with /v3/api-docs. E.g.: http://localhost:4004/api-docs/patients -> http://localhost:4000/v3/api-docs
