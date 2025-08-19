@@ -1,5 +1,6 @@
 ### GET request to validate token
-GET http://localhost:4005/validate
+### API Gateway is at localhost:4004
+GET http://localhost:4004/auth/validate
 Authorization: Bearer {{token}}
 
-###
+### token is set globally by login.http

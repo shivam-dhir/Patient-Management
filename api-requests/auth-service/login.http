@@ -1,6 +1,6 @@
 ### Loging request to recieve a token
-
-POST http://localhost:4005/login
+### API gateway is at port 4004
+POST http://localhost:4004/auth/login
 Content-Type: application/json
 
 {

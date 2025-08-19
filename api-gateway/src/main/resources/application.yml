@@ -7,12 +7,21 @@ spring:
       server:
         webflux:
           routes:
+              ## http://localhost:4004/auth/login -> http://auth-service:4005/login
+            - id: auth-service-route
+              uri: http://auth-service:4005
+              predicates:
+                - Path=/auth/**
+              filters:
+                - StripPrefix=1
+
             - id: patient-service-route
               uri: http://patient-service:4000
               predicates:
               - Path=/api/patients/** # '**' acts as a wildcard. Should match with request path. Eg: http://localhost:4004/api/patients/all. This matches with /api/patients/**
               filters:
               - StripPrefix=1 # removal of a specified prefix from the incoming request path before forwarding the request to the downstream service. #E.g.: Client sends a request to http://localhost:4004/api/v2/patients/all. Assuming strip-prefix = 2, backend service will receive request as http://localost:4000/patients/all, as characters until 2 backslashes are removed, so /api/v2 is removed
+              - JwtValidation
 
             - id: api-docs-patient-route
               uri: http://patient-service:4000
@@ -20,3 +29,10 @@ spring:
               - Path=/api-docs/patients
               filters:
               - RewritePath=/api-docs/patients,/v3/api-docs # if request matches the predicate /api-docs/patients, it will rewrite it with /v3/api-docs and append it to original path. E.g.: http://localhost:4004/api-docs/patients -> http://localhost:4000/v3/api-docs
+
+            - id: api-docs-auth-route
+              uri: http://auth-service:4005
+              predicates:
+                - Path=/api-docs/auth
+              filters:
+                - RewritePath=/api-docs/auth, /v3/api-docs
