@@ -1,0 +1,29 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "localstack": {
+        "id": "localstack",
+        "path": "localstack",
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.178.1"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.4.2"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.178.1"
+    }
+  }
+}
