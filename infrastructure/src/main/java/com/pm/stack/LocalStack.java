@@ -6,6 +6,7 @@ import software.amazon.awscdk.services.ec2.InstanceSize;
 import software.amazon.awscdk.services.ec2.InstanceType;
 import software.amazon.awscdk.services.ec2.Vpc;
 import software.amazon.awscdk.services.rds.*;
+import software.amazon.awscdk.services.route53.CfnHealthCheck;
 
 public class LocalStack extends Stack {
 
@@ -22,8 +23,13 @@ public class LocalStack extends Stack {
         DatabaseInstance patientServiceDb =
                 createDatabase("PatientServiceDB", "patient-service-db");
 
+        CfnHealthCheck authDbHealthCheck = createDbHealthCheck(authServiceDb, "AuthServiceDBHealthCheck");
+
+        CfnHealthCheck patientDbHealthCheck = createDbHealthCheck(patientServiceDb, "PatientServiceDbHealthCheck");
+
     }
 
+    // Create a virtual private cloud
     private Vpc createVpc(){
        //AWS CDK takes this code and properties and converts it to cloud formation code
         return Vpc.Builder.create(this, "PatientManagementVPC")
@@ -32,6 +38,8 @@ public class LocalStack extends Stack {
                 .build();
     }
 
+
+    // Create a new database
     private DatabaseInstance createDatabase(String id, String dbName){
         return DatabaseInstance.Builder.create(this, id)
                 .engine(DatabaseInstanceEngine
@@ -45,6 +53,20 @@ public class LocalStack extends Stack {
                 .credentials(Credentials.fromGeneratedSecret("postgres"))
                 .databaseName(dbName)
                 .removalPolicy(RemovalPolicy.DESTROY)
+                .build();
+    }
+
+    // Health check for database instances
+    private CfnHealthCheck createDbHealthCheck(DatabaseInstance db, String id){
+        return CfnHealthCheck.Builder
+                .create(this, id)
+                .healthCheckConfig(CfnHealthCheck.HealthCheckConfigProperty.builder()
+                        .type("TCP") // use TCP endpoint to check if database is online
+                        .port(Token.asNumber(db.getDbInstanceEndpointPort())) // get the port at which DB is running, convert it to a number and pass it to CDK
+                        .ipAddress(db.getDbInstanceEndpointAddress()) // tells health check function, which address to look for
+                        .requestInterval(30) // check the status of DB every 30 seconds
+                        .failureThreshold(3) // check 3 times before reporting failure
+                        .build())
                 .build();
     }
 
