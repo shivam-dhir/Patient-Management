@@ -1,12 +1,13 @@
 package com.pm.stack;
 
 import software.amazon.awscdk.*;
-import software.amazon.awscdk.services.ec2.InstanceClass;
-import software.amazon.awscdk.services.ec2.InstanceSize;
+import software.amazon.awscdk.services.ec2.*;
 import software.amazon.awscdk.services.ec2.InstanceType;
-import software.amazon.awscdk.services.ec2.Vpc;
+import software.amazon.awscdk.services.msk.CfnCluster;
 import software.amazon.awscdk.services.rds.*;
 import software.amazon.awscdk.services.route53.CfnHealthCheck;
+
+import java.util.stream.Collectors;
 
 public class LocalStack extends Stack {
 
@@ -17,15 +18,21 @@ public class LocalStack extends Stack {
         super(scope, id, props);
         this.vpc = createVpc();
 
+        // create auth service db instance
         DatabaseInstance authServiceDb =
                 createDatabase("AuthServiceDB", "auth-service-db");
 
+        // create patient service db instance
         DatabaseInstance patientServiceDb =
                 createDatabase("PatientServiceDB", "patient-service-db");
 
+        // create auth service db health check
         CfnHealthCheck authDbHealthCheck = createDbHealthCheck(authServiceDb, "AuthServiceDBHealthCheck");
 
+        // create patient service db health check
         CfnHealthCheck patientDbHealthCheck = createDbHealthCheck(patientServiceDb, "PatientServiceDbHealthCheck");
+
+        CfnCluster mskCluster = createMskCluster();
 
     }
 
@@ -67,6 +74,20 @@ public class LocalStack extends Stack {
                         .requestInterval(30) // check the status of DB every 30 seconds
                         .failureThreshold(3) // check 3 times before reporting failure
                         .build())
+                .build();
+    }
+
+    private CfnCluster createMskCluster(){
+        return CfnCluster.Builder.create(this, "MskCluster")
+                .clusterName("kafka-cluster")
+                .kafkaVersion("2.8.0")
+                .numberOfBrokerNodes(1)
+                .brokerNodeGroupInfo(CfnCluster.BrokerNodeGroupInfoProperty.builder()
+                        .instanceType("kafka.m5.xlarge") // instance type: type of machine to run on -> compute power, memory etc
+                        .clientSubnets(vpc.getPrivateSubnets().stream() // get list of private subnets from vpc and pass it to client subnets argument
+                                .map(ISubnet::getSubnetId)
+                                .collect(Collectors.toList()))
+                .brokerAzDistribution("DEFAULT").build()) // distribution across availability zones
                 .build();
     }
 
