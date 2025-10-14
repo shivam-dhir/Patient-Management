@@ -5,6 +5,7 @@ import software.amazon.awscdk.services.ec2.*;
 import software.amazon.awscdk.services.ec2.InstanceType;
 import software.amazon.awscdk.services.ecs.*;
 import software.amazon.awscdk.services.ecs.Protocol;
+import software.amazon.awscdk.services.ecs.patterns.ApplicationLoadBalancedFargateService;
 import software.amazon.awscdk.services.logs.LogGroup;
 import software.amazon.awscdk.services.logs.RetentionDays;
 import software.amazon.awscdk.services.msk.CfnCluster;
@@ -83,6 +84,8 @@ public class LocalStack extends Stack {
         patientService.getNode().addDependency(patientDbHealthCheck);
         patientService.getNode().addDependency(billingService);
         patientService.getNode().addDependency(mskCluster);
+
+        createApiGatewayService();
 
     }
 
@@ -223,6 +226,56 @@ public class LocalStack extends Stack {
                 .assignPublicIp(false)
                 .serviceName(imgName)
                 .build();
+    }
+
+    private void createApiGatewayService(){
+        FargateTaskDefinition taskDefinition = FargateTaskDefinition.Builder.create(this, "APIGatewayTaskDefinition")
+                .cpu(256)
+                .memoryLimitMiB(512)
+                .build();
+        ContainerDefinitionOptions containerOptions = ContainerDefinitionOptions.builder()
+                .image(ContainerImage.fromRegistry("api-gateway"))
+                // Spring profiles active basically tells cdk which yaml file to use
+                // here we mention prod, which means this is for the production environment
+                // in the api-gateway service, we have 2 yaml files for regular development and prod
+                // having this configuration tells cdk to use the prod yaml file
+                .environment(Map.of(
+                        "SPRING_PROFILES_ACTIVE", "prod",
+                        "AUTH_SERVICE_URL", "http://host.docker.internal:4005"
+                ))
+                .portMappings(List.of(4004).stream()
+                        .map(port -> PortMapping.builder()
+                                .containerPort(port)
+                                .hostPort(port)
+                                .protocol(Protocol.TCP)
+                                .build())
+                        .toList())
+                //below few lines help to create a log group with the name ecs + imgName
+                .logging(LogDriver.awsLogs(AwsLogDriverProps.builder()
+                        .logGroup(LogGroup.Builder.create(this, "ApiGatewayLogGroup")
+                                .logGroupName("/ecs/api-gateway")
+                                // whenever stack is destroyed, logs are also destroyed
+                                .removalPolicy(RemovalPolicy.DESTROY)
+                                // how long logs are stored
+                                .retention(RetentionDays.ONE_DAY)
+                                .build())
+                        .streamPrefix("api-gateway")
+                        .build()))
+                .build();
+
+        // link container options to task definition
+        taskDefinition.addContainer("APIGatewayContainer", containerOptions);
+
+        ApplicationLoadBalancedFargateService apiGateway =
+                ApplicationLoadBalancedFargateService.Builder.create(this, "APIGatewayService")
+                        .cluster(ecsCluster)
+                        .serviceName("api-gateway")
+                        .taskDefinition(taskDefinition)
+                        // desiredCount -> number of instances
+                        .desiredCount(1)
+                        // Application Load Balancer will wait for 60 seconds for Api Gateway container to start before throwing error
+                        .healthCheckGracePeriod(Duration.seconds(60))
+                        .build();
     }
 
     public static void main(final String[] args){
