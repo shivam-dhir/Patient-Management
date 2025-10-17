@@ -1,8 +1,15 @@
 #!/usr/bin/bash
 
+export AWS_ACCESS_KEY_ID=test
+export AWS_SECRET_ACCESS_KEY=test
+export AWS_DEFAULT_REGION=us-east-1
+
 set -e # Stops the script if any command fails
 
 aws --endpoint-url=http://localhost:4566 cloudformation delete-stack \
+    --stack-name patient-management
+
+aws --endpoint-url=http://localhost:4566 cloudformation wait stack-delete-complete \
     --stack-name patient-management
 
 # use aws cli to deploy cloud formation stack
@@ -17,5 +24,3 @@ aws --endpoint-url=http://localhost:4566 cloudformation deploy \
 # describe-load-balancers returns all load balancers and their addresses in our stack
 aws --endpoint-url=http://localhost:4566 elbv2 describe-load-balancers \
     --query "LoadBalancers[0].DNSName" --output text
-
-aws cloudformation describe-stack-events --stack-name patient-management

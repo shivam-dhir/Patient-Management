@@ -131,10 +131,15 @@ public class LocalStack extends Stack {
     }
 
     private CfnCluster createMskCluster(){
+
+        List<String> privateSubnetIds = vpc.getPrivateSubnets().stream()
+                .map(ISubnet::getSubnetId)
+                .toList();
+
         return CfnCluster.Builder.create(this, "MskCluster")
                 .clusterName("kafka-cluster")
-                .kafkaVersion("2.8.0")
-                .numberOfBrokerNodes(1)
+                .kafkaVersion("3.6.0")
+                .numberOfBrokerNodes(privateSubnetIds.size())
                 .brokerNodeGroupInfo(CfnCluster.BrokerNodeGroupInfoProperty.builder()
                         .instanceType("kafka.m5.xlarge") // instance type: type of machine to run on -> compute power, memory etc
                         .clientSubnets(vpc.getPrivateSubnets().stream() // get list of private subnets from vpc and pass it to client subnets argument
