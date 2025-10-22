@@ -1,12 +1,15 @@
 ### Create a new patient
-POST localhost:4000/patients/new
+### All requests go to port 4004, which is the API Gateway, which then reroutes the request
+### POST http://localhost:4000/patients/new
+POST lb-0d12a6f4.elb.localhost.localstack.cloud:4004/api/patients/new
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "name": "Kafka Test",
-  "email": "kafka.test@example.com",
-  "address": "USA",
-  "dateOfBirth": "2000-11-09",
+  "name": "Production App Final Test",
+  "email": "production.final@example.com",
+  "address": "INDIA",
+  "dateOfBirth": "2002-11-09",
   "registeredDate": "2025-08-07"
 }
 

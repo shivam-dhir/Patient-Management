@@ -1,11 +1,14 @@
 ### Update existing patient
-PUT localhost:4000/patients/update/ba4d502e-3bad-49dd-ad62-2762de07f76a
+# PUT http://localhost:4000/patients/update/ba4d502e-3bad-49dd-ad62-2762de07f76a
+
+PUT http://lb-0d12a6f4.elb.localhost.localstack.cloud:4004/api/patients/update/677ac7fd-5d60-47cf-974f-522a4d11f489
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "name": "Gaurav Salvi Updated",
-  "email": "gaurav.salvi@example.com",
-  "address": "Borivali West",
+  "name": "Riya Sexy Feet",
+  "email": "SexyRia.feet@example.com",
+  "address": "My Mouth",
   "dateOfBirth": "2001-04-01",
   "registeredDate": "2025-06-24"
 }

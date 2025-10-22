@@ -1,6 +1,9 @@
 ### Loging request to recieve a token
 ### API gateway is at port 4004
-POST http://localhost:4004/auth/login
+### POST http://localhost:4004/auth/login
+### below is the new endpoint of the api gateway hosted on localstack, which is almost identical to
+### AWS
+POST http://lb-0d12a6f4.elb.localhost.localstack.cloud:4004/auth/login
 Content-Type: application/json
 
 {
