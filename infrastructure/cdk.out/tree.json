@@ -2779,12 +2779,12 @@
                         },
                         "environment": [
                           {
-                            "name": "SPRING_PROFILES_ACTIVE",
-                            "value": "prod"
-                          },
-                          {
                             "name": "AUTH_SERVICE_URL",
                             "value": "http://host.docker.internal:4005"
+                          },
+                          {
+                            "name": "SPRING_PROFILES_ACTIVE",
+                            "value": "prod"
                           }
                         ]
                       }

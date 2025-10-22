@@ -1636,12 +1636,12 @@
      {
       "Environment": [
        {
-        "Name": "SPRING_PROFILES_ACTIVE",
-        "Value": "prod"
-       },
-       {
         "Name": "AUTH_SERVICE_URL",
         "Value": "http://host.docker.internal:4005"
+       },
+       {
+        "Name": "SPRING_PROFILES_ACTIVE",
+        "Value": "prod"
        }
       ],
       "Essential": true,

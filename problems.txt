@@ -1,0 +1,12 @@
+In this file, I have listed down the stringent/frustrating problems i faced during this project
+and how I resolved those:
+
+1. Localstack port 4510 not open:
+After trying to build the stack using localstack and the cdk.out cloudformation file, it
+failed a number of times. So, when i tried to again build the stack using the localstack-deploy.sh file,
+which is a aws script file to build the stack, I was getting the error that port 4510 was already in use.
+When i used the terminal to find the port, it showed me that docker-compose was running on it.
+I tried to shut down/restart docker-compose, but it wouldn't work.
+I didn't realize that during previous tries, the stack provisioned a container which was running on
+port 4510, which I hadn't stopped.
+So, I went ahead and stopped the container and rebuilt the stack successfully.
